@@ -20,7 +20,7 @@ namespace TankOyunu
             //image=Image.FromFile()
         }
         int x = 10, y = 10, curX = 0, curY = 0;
-        string komut = "1", sag = "→", sol = "←", ust = "¯", alt = "_", curYon = "", curFirca = "";
+        string komut = "1", sag = "→", sol = "←", ust = "↑", alt = "↓", curYon = "", curFirca = "";
         char yildiz = '*';
         int bos = 0;
         char[] arr;
@@ -35,7 +35,7 @@ namespace TankOyunu
                     dgvPanel.Rows[i].Cells[j].Value = bos;
                 }
             }
-            dgvPanel.Rows[curY].Cells[curX].Value = sag + ust;
+            dgvPanel.Rows[curY].Cells[curX].Value = yildiz;
 
             dgvPanel.ColumnHeadersVisible = false;
             dgvPanel.RowHeadersVisible = false;
@@ -48,7 +48,7 @@ namespace TankOyunu
         private void timer1_Tick(object sender, EventArgs e)
         {
             int iX = 1, iY = 1;
-            if (curYon == sag && curX != 9)
+            if (curYon == sag && curX != x-1)
             {
                 dgvPanel.Rows[curY].Cells[curX].Value =1;
                 curX += iX;
@@ -60,28 +60,32 @@ namespace TankOyunu
                 curX -= iX;
                 dgvPanel.Rows[curY].Cells[curX].Value = curYon + curFirca;
             }
-            if (curYon == alt && curX != 9)
+            if (curYon == alt && curY != y-1)
             {
-                dgvPanel.Rows[curX].Cells[curY].Value = 1;
-                curX += iY;
-                dgvPanel.Rows[curX].Cells[curY].Value = curYon + curFirca;
+                dgvPanel.Rows[curY].Cells[curX].Value = 1;
+                curY += iY;
+                dgvPanel.Rows[curY].Cells[curX].Value = curYon + curFirca;
             }
-            if (curYon == ust && curX != 0)
+            if (curYon == ust && curY != 0)
             {
-                dgvPanel.Rows[curX].Cells[curY].Value = 1;
-                curX -= iY;
-                dgvPanel.Rows[curX].Cells[curY].Value = curYon + curFirca;
+                dgvPanel.Rows[curY].Cells[curX].Value = 1;
+                curY -= iY;
+                dgvPanel.Rows[curY].Cells[curX].Value = curYon + curFirca;
             }
-            if (curX == 9)
-                curYon = sol;
-            if (curX == 0)
+            //TEST
+            if (curY == 9)
                 curYon = sag;
+            if (curX == 9 && curY == 9)
+                curYon = ust;
+            if (curX == 9 && curY == 0)
+                curYon = sol;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
             // engel durumuna göre aşağıda işlem yapılacak
-            curYon = sag;
+            //TEST
+            curYon = alt;
             timer1.Enabled = true;
             timer1.Start();
         }
