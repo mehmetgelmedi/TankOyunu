@@ -19,29 +19,77 @@ namespace TankOyunu
             timer1.Interval = 300;    
             //image=Image.FromFile()
         }
-        int x = 10, y = 10, curX = 0, curY = 0;
-        string komut = "1", sag = "→", sol = "←", ust = "↑", alt = "↓", curYon = "", curFirca = "";
+        int x , y, curX = 1, curY = 1;
+        string komut = "", sag = "→", sol = "←", ust = "↑", alt = "↓", curYon = "", curFirca = "";
+
+        private void dgvPanel_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvPanel_AllowUserToResizeColumnsChanged(object sender, EventArgs e)
+        {
+
+        }
+
         char yildiz = '*';
         int bos = 0;
         char[] arr;
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            dgvPanel.ColumnCount = x;
-            dgvPanel.RowCount = y;
+            x = int.Parse(txtX.Text);
+            y = int.Parse(txtY.Text);
+            //MessageBox.Show(x.ToString()+y.ToString());
+            //dgvPanel.ColumnCount = x;
+            //dgvPanel.RowCount = y;
+
+            //for (int i = 0; i < x; i++)
+            //{
+            //    for (int j = 0; j < y; j++)
+            //    {
+            //        dgvPanel.Rows[i].Cells[j].Value = bos;
+            //    }
+            //}
+            DataTable dt = new DataTable();
             for (int i = 0; i < x; i++)
             {
-                for (int j = 0; j < y; j++)
+                dt.Columns.Add();
+            }
+            for (int i = 0; i < y; i++)
+            {
+                dt.Rows.Add();
+            }
+            // bos hatalı şuan
+            
+            dgvPanel.DataSource = dt;
+            foreach (DataGridViewRow row in dgvPanel.Rows)
+            {
+                row.Height = 50;
+                if (row.Index == 0 || row.Index == y - 1)
                 {
-                    dgvPanel.Rows[i].Cells[j].Value = bos;
+                    row.DefaultCellStyle.BackColor = Color.Purple;
                 }
+            }
+             foreach (DataGridViewColumn col in dgvPanel.Columns)
+            {
+                col.Width = 50;
+
+                if (col.Index ==0 || col.Index == x-1)
+                {
+                    col.DefaultCellStyle.BackColor = Color.Purple;
+                }
+
+                dgvPanel.ColumnHeadersVisible = false;
+                dgvPanel.RowHeadersVisible = false;
+                dgvPanel.DefaultCellStyle.SelectionBackColor = dgvPanel.DefaultCellStyle.BackColor;
             }
             dgvPanel.Rows[curY].Cells[curX].Value = yildiz;
 
             dgvPanel.ColumnHeadersVisible = false;
             dgvPanel.RowHeadersVisible = false;
+            
             dgvPanel.AutoSize = true;
-            dgvPanel.AutoResizeColumns();
-            dgvPanel.AutoResizeRows();
+          
             arr = komut.ToCharArray();
         }
 
@@ -91,7 +139,15 @@ namespace TankOyunu
         }
 
         private void dgvPanel_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
+        {  //  if (dataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor != Color.Purple)
+            if (dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor != Color.Yellow)
+            {
+                dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.Yellow;
+            }
+            else
+            {
+                dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.BackColor = Color.White;
+            }
         }
 
         private void dgvPanel_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
