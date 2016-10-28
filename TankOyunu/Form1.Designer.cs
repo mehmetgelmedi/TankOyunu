@@ -55,10 +55,7 @@
             this.dgvPanel.Name = "dgvPanel";
             this.dgvPanel.Size = new System.Drawing.Size(30, 30);
             this.dgvPanel.TabIndex = 0;
-            this.dgvPanel.AllowUserToResizeColumnsChanged += new System.EventHandler(this.dgvPanel_AllowUserToResizeColumnsChanged);
             this.dgvPanel.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPanel_CellClick);
-            this.dgvPanel.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPanel_CellContentClick);
-            this.dgvPanel.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgvPanel_CellPainting);
             // 
             // btnCreate
             // 

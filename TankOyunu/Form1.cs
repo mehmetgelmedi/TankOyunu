@@ -12,69 +12,96 @@ namespace TankOyunu
 {
     public partial class frmTank : Form
     {
-        
         public frmTank()
         {
             InitializeComponent();
-            timer1.Interval = 300;    
+            timer1.Interval = 300;
             //image=Image.FromFile()
         }
-        int x , y, curX = 1, curY = 1;
-        string komut = "", sag = "→", sol = "←", ust = "↑", alt = "↓", curYon = "", curFirca = "";
-
-        private void dgvPanel_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        int x, y, curX = 1, curY = 1;
+        string sag, sol, ust, alt, curYon, curFirca;
+        int[,] kararArr;
         Bitmap imgBos;
         Bitmap imgDuvar;
         Bitmap imgTarayici;
-        Bitmap imgPasif;
+
+        public void KararKontrol()
+        {
+            int solKarar, sagKarar, ustKarar, altKarar;
+            Bitmap bmsolKarar, bmsagKarar, bmustKarar, bmaltKarar;
+            ustKarar = Convert.ToInt32(dgvPanel.Rows[curY - 1].Cells[curX].ToolTipText);
+            sagKarar = Convert.ToInt32(dgvPanel.Rows[curY].Cells[curX + 1].ToolTipText);
+            altKarar = Convert.ToInt32(dgvPanel.Rows[curY + 1].Cells[curX].ToolTipText);
+            solKarar = Convert.ToInt32(dgvPanel.Rows[curY].Cells[curX - 1].ToolTipText);
+            bmustKarar = (Bitmap)dgvPanel.Rows[curY - 1].Cells[curX].Value;
+            bmsagKarar = (Bitmap)dgvPanel.Rows[curY].Cells[curX + 1].Value;
+            bmaltKarar = (Bitmap)dgvPanel.Rows[curY + 1].Cells[curX].Value;
+            bmsolKarar = (Bitmap)dgvPanel.Rows[curY].Cells[curX - 1].Value;
 
 
+            MessageBox.Show("Ust :" + ustKarar + "Sag :" + sagKarar + "Alt :" + altKarar + "Sol :" + solKarar);
+
+            if (ustKarar < solKarar && ustKarar < sagKarar && ustKarar < altKarar)
+            {
+                if (bmustKarar != imgDuvar && bmustKarar == imgBos)
+                    curYon = ust;
+            }
+            else if (solKarar < ustKarar && solKarar < sagKarar && solKarar < altKarar)
+            {
+                if (bmsolKarar != imgDuvar && bmsolKarar == imgBos)
+                    curYon = sol;
+            }
+            else if (sagKarar < ustKarar && sagKarar < solKarar && sagKarar < altKarar)
+            {
+                if (bmsagKarar != imgDuvar && bmsagKarar == imgBos)
+                    curYon = sag;
+            }
+            else if (altKarar < ustKarar && altKarar < solKarar && altKarar < ustKarar)
+            {
+                if (bmaltKarar != imgDuvar && bmaltKarar == imgBos)
+                    curYon = alt;
+            }
+            else
+                MessageBox.Show("Hatali yön");
+        }
         private void frmTank_Load(object sender, EventArgs e)
         {
             imgBos = new Bitmap(@"bos.png");
             imgDuvar = new Bitmap(@"duvar.png");
             imgTarayici = new Bitmap(@"tarayici.png");
+            
             //imgPasif = new Bitmap(@"pasif.png");
         }
-
-        private void dgvPanel_AllowUserToResizeColumnsChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        char yildiz = '*';
-        int bos = 0;
-        char[] arr;
-
         private void timer1_Tick(object sender, EventArgs e)
         {
-            int iX = 1, iY = 1;
+            int iX = 1, iY = 1, z = 0, b = 0, c = 0, v = 0;
             if (curYon == sag && curX != x - 1)
             {
-                dgvPanel.Rows[curY].Cells[curX].Value = 1;
+                z++;
+                dgvPanel.Rows[curY].Cells[curX].ToolTipText = z + "";
                 curX += iX;
-                dgvPanel.Rows[curY].Cells[curX].Value = curYon + curFirca;
+                dgvPanel.Rows[curY].Cells[curX].Value = imgTarayici;
             }
             if (curYon == sol && curX != 0)
             {
-                dgvPanel.Rows[curY].Cells[curX].Value = 1;
+                b++;
+                dgvPanel.Rows[curY].Cells[curX].ToolTipText = b + "";
                 curX -= iX;
-                dgvPanel.Rows[curY].Cells[curX].Value = curYon + curFirca;
+                dgvPanel.Rows[curY].Cells[curX].Value = imgTarayici;
             }
             if (curYon == alt && curY != y - 1)
             {
-                dgvPanel.Rows[curY].Cells[curX].Value = 1;
+                c++;
+                dgvPanel.Rows[curY].Cells[curX].ToolTipText = c + "";
                 curY += iY;
-                dgvPanel.Rows[curY].Cells[curX].Value = curYon + curFirca;
+                dgvPanel.Rows[curY].Cells[curX].Value = imgTarayici;
             }
             if (curYon == ust && curY != 0)
             {
-                dgvPanel.Rows[curY].Cells[curX].Value = 1;
+                v++;
+                dgvPanel.Rows[curY].Cells[curX].ToolTipText = v + "";
                 curY -= iY;
-                dgvPanel.Rows[curY].Cells[curX].Value = curYon + curFirca;
+                dgvPanel.Rows[curY].Cells[curX].Value = imgTarayici;
             }
         }
         private void btnCreate_Click(object sender, EventArgs e)
@@ -83,7 +110,7 @@ namespace TankOyunu
             y = int.Parse(txtY.Text);
             try
             {
-                if (x > 3 && y> 3)
+                if (x > 3 && y > 3)
                 {
                     dgvPanel.Rows.Clear();
                     dgvPanel.Columns.Clear();
@@ -106,7 +133,7 @@ namespace TankOyunu
                             if (cell.ColumnIndex == 0 || cell.ColumnIndex == x - 1 || cell.RowIndex == 0 || cell.RowIndex == y - 1)
                             {
                                 cell.Value = imgDuvar;
-                                cell.ToolTipText = "99";
+                                cell.ToolTipText = "999";
                             }
                             else
                             {
@@ -114,23 +141,19 @@ namespace TankOyunu
                                 cell.Value = imgBos;
                             }
                         }
-
                     }
 
                     foreach (DataGridViewColumn col in dgvPanel.Columns)
                     {
                         col.Width = 50;
-
                     }
-
-                    
-                  
                     dgvPanel.ColumnHeadersVisible = false;
                     dgvPanel.Rows[1].Cells[1].Value = imgTarayici;
                     dgvPanel.RowHeadersVisible = false;
                     dgvPanel.AutoSize = true;
 
-
+                    //karar dizisi oluşturuluyor
+                    kararArr = new int[x, y];
                 }
                 else
                 {
@@ -141,20 +164,12 @@ namespace TankOyunu
             {
                 MessageBox.Show("X değeri 0 100 arası olmalı");
             }
-            //TEST
-            if (curY == 9)
-                curYon = sag;
-            if (curX == 9 && curY == 9)
-                curYon = ust;
-            if (curX == 9 && curY == 0)
-                curYon = sol;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            // engel durumuna göre aşağıda işlem yapılacak
-            //TEST
-            curYon = alt;
+            //Test
+            KararKontrol();
             timer1.Enabled = true;
             timer1.Start();
         }
@@ -166,21 +181,13 @@ namespace TankOyunu
                     if (dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != imgDuvar)
                     {
                         dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = imgDuvar;
-                        dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "99";
+                        dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "999";
                     }
                     else
                     {
                         dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = imgBos;
                         dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "0";
                     }
-        }
-
-        private void dgvPanel_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            // if ((char)dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].Value =='0')
-            //{
-            //    dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].
-            //}
         }
     }
 }
