@@ -70,10 +70,6 @@
             this.btnCreate.UseVisualStyleBackColor = true;
             this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
             // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // btnStart
             // 
             this.btnStart.Location = new System.Drawing.Point(26, 107);
@@ -141,6 +137,8 @@
             this.Controls.Add(this.dgvPanel);
             this.Name = "frmTank";
             this.Text = "Tank";
+            this.Load += new System.EventHandler(this.frmTank_Load);
+            
             ((System.ComponentModel.ISupportInitialize)(this.dgvPanel)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
