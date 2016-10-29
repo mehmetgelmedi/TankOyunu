@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bos.png" />
+    <Content Include="dolu.png" />
     <Content Include="duvar.png" />
     <Content Include="tarayici.png" />
   </ItemGroup>
