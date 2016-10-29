@@ -18,6 +18,18 @@ namespace TankOyunu
         Bitmap imgBos;
         Bitmap imgDuvar;
         Bitmap imgTarayici;
+
+        private void txtX_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if ((int)e.KeyChar >= 48 && (int)e.KeyChar <= 57)
+                e.Handled = false;
+            else if ((int)e.KeyChar == 8)
+                e.Handled = false;
+            else
+                e.Handled = true;
+
+        }
+
         Bitmap imgDolu;
         public frmTank()
         {
@@ -31,6 +43,7 @@ namespace TankOyunu
             if (curY - 1 >= 0)
             {
                 ustKarar = Convert.ToInt32(dgvPanel.Rows[curY - 1].Cells[curX].ToolTipText);
+
                 bmustKarar = (Bitmap)dgvPanel.Rows[curY - 1].Cells[curX].Value;
             }
             if (curX + 1 <= x)
@@ -49,8 +62,17 @@ namespace TankOyunu
                 bmsolKarar = (Bitmap)dgvPanel.Rows[curY].Cells[curX - 1].Value;
             }
 
-            //MessageBox.Show("Ust :" + ustKarar + "Sag :" + sagKarar + "Alt :" + altKarar + "Sol :" + solKarar);
 
+
+            //MessageBox.Show("Ust :" + ustKarar + "Sag :" + sagKarar + "Alt :" + altKarar + "Sol :" + solKarar);
+            if (ustKarar >= 999 && altKarar >= 999 && sagKarar >= 999 && solKarar >= 999)
+            {
+                
+                //MessageBox.Show("Uygulamada olmaması gereken işler ");
+                Application.Exit();
+
+
+            }
             if (ustKarar <= solKarar && ustKarar <= sagKarar && ustKarar <= altKarar)
             {
                 if (bmustKarar != imgDuvar)
@@ -71,15 +93,22 @@ namespace TankOyunu
                 if (bmaltKarar != imgDuvar)
                     curYon = "alt";
             }
+            
             else
                 MessageBox.Show("Hatali yön");
         }
+
+        private void Exit()
+        {
+            throw new NotImplementedException();
+        }
+
         private void frmTank_Load(object sender, EventArgs e)
         {
-            //imgBos = new Bitmap(@"bos.png");
-            //imgDuvar = new Bitmap(@"duvar.png");
-            //imgTarayici = new Bitmap(@"tarayici.png");
-            //imgDolu = new Bitmap(@"dolu.png");
+            imgBos = new Bitmap(@"bos.png");
+            imgDuvar = new Bitmap(@"duvar.png");
+            imgTarayici = new Bitmap(@"tarayici.png");
+            imgDolu = new Bitmap(@"dolu.png");
         }
         private void btnCreate_Click(object sender, EventArgs e)
         {
@@ -144,6 +173,8 @@ namespace TankOyunu
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            btnCreate.Enabled = false;
+            dgvPanel.Enabled = false;
             timer1.Enabled = true;
             timer1.Start();
         }
