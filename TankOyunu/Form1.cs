@@ -91,6 +91,7 @@ namespace TankOyunu
 
         private void frmTank_Load(object sender, EventArgs e)
         {
+
             imgBos = new Bitmap(@"bos.png");
             imgDuvar = new Bitmap(@"duvar.png");
             imgTarayici = new Bitmap(@"tarayici.png");
@@ -98,18 +99,27 @@ namespace TankOyunu
             btnStart.Enabled = false;
         }
 
+        private void oynanışToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("1.Oyuna başlamadan önce değerleri giriniz.\n2.Değerleri girdikten sonra oluştura işlemini gerçekleştiriniz.\n3.Başlamadan etrafı kapalı bir mayın bırakmayın bunun yanında tarayıcının etrafını kapatmayınız.", "Oynanış");
+        }
+
+        private void dgvPanel_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            dgvPanel.Columns[e.Column.Index].Width = e.Column.Width;
+        }
+
         private void btnCreate_Click(object sender, EventArgs e)
         {
+            x = int.Parse(txtX.Text);
+            y = int.Parse(txtY.Text);
             if (txtX.Text == "" || txtY.Text == "")
             {
                 MessageBox.Show("Değerler Boş Geçilemez Lütfen Değerleri Doldurunuz.");
             }
-            else
+            if (x <= 24 && y <= 14)
             {
-                x = int.Parse(txtX.Text);
-                y = int.Parse(txtY.Text);
                 tamamlandiKontrol = (x - 2) * (y - 2) - 1;
-                //MessageBox.Show(tamamlandiKontrol.ToString());
                 btnStart.Enabled = true;
                 try
                 {
@@ -160,6 +170,7 @@ namespace TankOyunu
                     }
                     else
                     {
+                        
                         MessageBox.Show("En az 5 x 5 bir alan oluşturun.");
                     }
                 }
@@ -168,6 +179,10 @@ namespace TankOyunu
                     MessageBox.Show("X değeri 5 - 100 arası olmalı");
                 }
             }
+            else
+                MessageBox.Show("X için 24 Y için 14 ");
+
+
 
         }
 
@@ -180,14 +195,12 @@ namespace TankOyunu
                         dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = imgDuvar;
                         dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "9999";
                         tamamlandiKontrol--;
-                        //MessageBox.Show(tamamlandiKontrol+"");
                     }
                     else
                     {
                         dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = imgBos;
                         dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "0";
                         tamamlandiKontrol++;
-                        //MessageBox.Show(tamamlandiKontrol + "");
                     }
             SonsuzKontrol();
         }
@@ -207,18 +220,14 @@ namespace TankOyunu
                 timer1.Enabled = false;
                 timer1.Stop();
                 MessageBox.Show("Tarama Tamamlandı.");
-                //sıfırlama
                 btnCreate.Enabled = true;
                 metinAlanTemizle();
                 txtX.Enabled = true;
                 txtY.Enabled = true;
                 btnStart.Enabled = false;
-                lblNot.Text = "Tekrar Oynaka İçin \n Değerleri Giriniz \n Sahneyi Oluşturunuz";
-                txtX.Focus();
-                //panel click enabled =true
+                MessageBox.Show("Yeni Sahne Açılıyor . . . ");
+                Application.Restart();
             }
-
-
         }
         public void metinAlanTemizle()
         {
@@ -282,10 +291,19 @@ namespace TankOyunu
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            // Create and initialize a VScrollBar.
+            VScrollBar vScrollBar1 = new VScrollBar();
+
+            // Dock the scroll bar to the right side of the form.
+            vScrollBar1.Dock = DockStyle.Right;
+
+            // Add the scroll bar to the form.
+            Controls.Add(vScrollBar1);
             btnCreate.Enabled = false;
             dgvPanel.Enabled = true;
             timer1.Enabled = true;
             timer1.Start();
+            dgvPanel.Enabled = false;
         }
 
         private void çıkışToolStripMenuItem_Click(object sender, EventArgs e)
@@ -295,7 +313,7 @@ namespace TankOyunu
 
         private void hakkındaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Kullanmış olduğunuz uygulama\nYazılım sınama dersi için yapılmış.\nBir uygulamadır.","Bilgi");
+            MessageBox.Show("Kullanmış olduğunuz uygulama\nYazılım sınama dersi için yapılmış.\nBir uygulamadır.", "Bilgi");
         }
     }
 }

@@ -44,6 +44,7 @@
             this.çıkışToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.yardımToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hakkındaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oynanışToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPanel)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -56,13 +57,14 @@
             this.dgvPanel.AllowUserToResizeColumns = false;
             this.dgvPanel.AllowUserToResizeRows = false;
             this.dgvPanel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPanel.Location = new System.Drawing.Point(11, 27);
+            this.dgvPanel.Location = new System.Drawing.Point(11, 26);
             this.dgvPanel.Margin = new System.Windows.Forms.Padding(2);
             this.dgvPanel.MultiSelect = false;
             this.dgvPanel.Name = "dgvPanel";
             this.dgvPanel.Size = new System.Drawing.Size(30, 30);
             this.dgvPanel.TabIndex = 0;
             this.dgvPanel.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPanel_CellClick);
+            this.dgvPanel.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvPanel_ColumnWidthChanged);
             // 
             // btnCreate
             // 
@@ -128,9 +130,9 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtX);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupBox1.Location = new System.Drawing.Point(361, 24);
+            this.groupBox1.Location = new System.Drawing.Point(627, 24);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(140, 310);
+            this.groupBox1.Size = new System.Drawing.Size(146, 433);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sahne Bilgileri";
@@ -160,7 +162,7 @@
             this.yardımToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(501, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(773, 24);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -175,30 +177,38 @@
             // çıkışToolStripMenuItem
             // 
             this.çıkışToolStripMenuItem.Name = "çıkışToolStripMenuItem";
-            this.çıkışToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.çıkışToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.çıkışToolStripMenuItem.Text = "Çıkış";
             this.çıkışToolStripMenuItem.Click += new System.EventHandler(this.çıkışToolStripMenuItem_Click);
             // 
             // yardımToolStripMenuItem
             // 
             this.yardımToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hakkındaToolStripMenuItem});
+            this.hakkındaToolStripMenuItem,
+            this.oynanışToolStripMenuItem});
             this.yardımToolStripMenuItem.Name = "yardımToolStripMenuItem";
-            this.yardımToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.yardımToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.yardımToolStripMenuItem.Text = "Yardım";
             // 
             // hakkındaToolStripMenuItem
             // 
             this.hakkındaToolStripMenuItem.Name = "hakkındaToolStripMenuItem";
-            this.hakkındaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hakkındaToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.hakkındaToolStripMenuItem.Text = "Hakkında";
             this.hakkındaToolStripMenuItem.Click += new System.EventHandler(this.hakkındaToolStripMenuItem_Click);
+            // 
+            // oynanışToolStripMenuItem
+            // 
+            this.oynanışToolStripMenuItem.Name = "oynanışToolStripMenuItem";
+            this.oynanışToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.oynanışToolStripMenuItem.Text = "Oynanış";
+            this.oynanışToolStripMenuItem.Click += new System.EventHandler(this.oynanışToolStripMenuItem_Click);
             // 
             // frmTank
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(501, 334);
+            this.ClientSize = new System.Drawing.Size(773, 457);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvPanel);
             this.Controls.Add(this.menuStrip1);
@@ -232,6 +242,7 @@
         private System.Windows.Forms.ToolStripMenuItem çıkışToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem yardımToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hakkındaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oynanışToolStripMenuItem;
     }
 }
 
