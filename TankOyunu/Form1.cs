@@ -13,7 +13,7 @@ namespace TankOyunu
     public partial class frmTank : Form
     {
         int x, y, curX = 1, curY = 1, z = 0, b = 0, c = 0, v = 0, tamamlandiKontrol = 0, sayac = 0;
-
+        bool dSonsuz = false;
         string curYon = "";
         Bitmap imgBos;
         Bitmap imgDuvar;
@@ -31,6 +31,22 @@ namespace TankOyunu
         }
 
         Bitmap imgDolu;
+
+        private void dgvPanel_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void toolStripLabel1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void toolStripLabel2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Kullanmış olduğunuz uygulama\nYazılım sınama dersi içine yapılmış.\nBir uygulamadır.");
+        }
+
         public frmTank()
         {
             InitializeComponent();
@@ -67,12 +83,9 @@ namespace TankOyunu
             //MessageBox.Show("Ust :" + ustKarar + "Sag :" + sagKarar + "Alt :" + altKarar + "Sol :" + solKarar);
             if (ustKarar >= 999 && altKarar >= 999 && sagKarar >= 999 && solKarar >= 999)
             {
-                
-                //MessageBox.Show("Uygulamada olmaması gereken işler ");
-                Application.Exit();
-
-
+                dSonsuz = true;
             }
+
             if (ustKarar <= solKarar && ustKarar <= sagKarar && ustKarar <= altKarar)
             {
                 if (bmustKarar != imgDuvar)
@@ -98,10 +111,7 @@ namespace TankOyunu
                 MessageBox.Show("Hatali yön");
         }
 
-        private void Exit()
-        {
-            throw new NotImplementedException();
-        }
+       
 
         private void frmTank_Load(object sender, EventArgs e)
         {
@@ -109,66 +119,81 @@ namespace TankOyunu
             imgDuvar = new Bitmap(@"duvar.png");
             imgTarayici = new Bitmap(@"tarayici.png");
             imgDolu = new Bitmap(@"dolu.png");
+            btnStart.Enabled = false;
         }
+     
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            x = int.Parse(txtX.Text);
-            y = int.Parse(txtY.Text);
-            tamamlandiKontrol = (x - 2) * (y - 2) - 1;
-            MessageBox.Show(tamamlandiKontrol.ToString());
-            try
+            if (txtX.Text == "" || txtY.Text == "")
             {
-                if (x > 4 && y > 4)
+                MessageBox.Show("Değerler Boş Geçilemez Lütfen Değerleri Doldurunuz.");
+            }
+            else
+            {
+                x = int.Parse(txtX.Text);
+                y = int.Parse(txtY.Text);
+                tamamlandiKontrol = (x - 2) * (y - 2) - 1;
+                //MessageBox.Show(tamamlandiKontrol.ToString());
+                btnStart.Enabled = true;
+                try
                 {
-                    dgvPanel.Rows.Clear();
-                    dgvPanel.Columns.Clear();
-                    for (int i = 0; i < x; i++)
+                    if (x > 4 && y > 4)
                     {
-                        DataGridViewImageColumn imageCol = new DataGridViewImageColumn();
-                        dgvPanel.Columns.Add(imageCol);
-                    }
-                    for (int i = 0; i < y; i++)
-                    {
-                        dgvPanel.Rows.Add();
-                    }
-
-                    foreach (DataGridViewRow row in dgvPanel.Rows)
-                    {
-                        row.Height = 50;
-
-                        foreach (DataGridViewCell cell in row.Cells)
+                        dgvPanel.Rows.Clear();
+                        dgvPanel.Columns.Clear();
+                        for (int i = 0; i < x; i++)
                         {
-                            if (cell.ColumnIndex == 0 || cell.ColumnIndex == x - 1 || cell.RowIndex == 0 || cell.RowIndex == y - 1)
+                            DataGridViewImageColumn imageCol = new DataGridViewImageColumn();
+                            dgvPanel.Columns.Add(imageCol);
+                        }
+                        for (int i = 0; i < y; i++)
+                        {
+                            dgvPanel.Rows.Add();
+                        }
+
+                        foreach (DataGridViewRow row in dgvPanel.Rows)
+                        {
+                            row.Height = 50;
+
+                            foreach (DataGridViewCell cell in row.Cells)
                             {
-                                cell.Value = imgDuvar;
-                                cell.ToolTipText = "999";
-                            }
-                            else
-                            {
-                                cell.ToolTipText = "0";
-                                cell.Value = imgBos;
+                                if (cell.ColumnIndex == 0 || cell.ColumnIndex == x - 1 || cell.RowIndex == 0 || cell.RowIndex == y - 1)
+                                {
+                                    cell.Value = imgDuvar;
+                                    cell.ToolTipText = "999";
+                                }
+                                else
+                                {
+                                    cell.ToolTipText = "0";
+                                    cell.Value = imgBos;
+                                }
                             }
                         }
-                    }
 
-                    foreach (DataGridViewColumn col in dgvPanel.Columns)
-                    {
-                        col.Width = 50;
+                        foreach (DataGridViewColumn col in dgvPanel.Columns)
+                        {
+                            col.Width = 50;
+                        }
+                        dgvPanel.ColumnHeadersVisible = false;
+                        dgvPanel.Rows[1].Cells[1].Value = imgTarayici;
+                        dgvPanel.RowHeadersVisible = false;
+                        dgvPanel.AutoSize = true;
+                        btnCreate.Enabled = false;
+                        txtX.Enabled = false;
+                        txtY.Enabled = false;
+
                     }
-                    dgvPanel.ColumnHeadersVisible = false;
-                    dgvPanel.Rows[1].Cells[1].Value = imgTarayici;
-                    dgvPanel.RowHeadersVisible = false;
-                    dgvPanel.AutoSize = true;
+                    else
+                    {
+                        MessageBox.Show("En az 5 x 5 bir alan oluşturun.");
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    MessageBox.Show("En az 5 x 5 bir alan oluşturun.");
+                    MessageBox.Show("X değeri 5 - 100 arası olmalı");
                 }
             }
-            catch (Exception)
-            {
-                MessageBox.Show("X değeri 5 - 100 arası olmalı");
-            }
+           
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -214,6 +239,23 @@ namespace TankOyunu
                 timer1.Enabled = false;
                 timer1.Stop();
                 MessageBox.Show("Tarama Tamamlandı.");
+                //sıfırlama
+                btnCreate.Enabled = true;
+                metinAlanTemizle();
+                txtX.Enabled = true;
+                txtY.Enabled = true;
+                btnStart.Enabled = false;
+                lblNot.Text = "Tekrar Oynaka İçin \n Değerleri Giriniz \n Sahneyi Oluşturunuz";
+                txtX.Focus();
+            }
+           
+              
+        }
+        public void metinAlanTemizle()
+        {
+            foreach (TextBox txt in this.groupBox1.Controls.OfType<TextBox>())
+            {
+                txt.Text = "";
             }
         }
         private void timer1_Tick(object sender, EventArgs e)
@@ -251,6 +293,27 @@ namespace TankOyunu
                 dgvPanel.Rows[curY].Cells[curX].Value = imgDolu;
                 curY -= iY;
                 dgvPanel.Rows[curY].Cells[curX].Value = imgTarayici;
+            }
+            //foreach (DataGridViewRow row in dgvPanel.Rows)
+            //{
+            //    foreach (DataGridViewCell cell in row.Cells)
+            //    {
+            //        if (cell.ToolTipText == "998")
+            //        {
+            //            dSonsuz = true;
+            //            break;
+            //        }
+            //    }
+            //}
+            //HATALI
+            if (dSonsuz)
+            {
+                timer1.Enabled = false;
+                MessageBox.Show("Sonsuz döngüye girdi.");
+                x = 0; y = 0; curX = 1; curY = 1; z = 0; b = 0; c = 0; v = 0; tamamlandiKontrol = 0; sayac = 0;
+                
+
+
             }
             BittiMi();
         }
