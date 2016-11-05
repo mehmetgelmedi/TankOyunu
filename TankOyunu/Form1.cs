@@ -13,12 +13,16 @@ namespace TankOyunu
     public partial class frmTank : Form
     {
         int x, y, curX = 1, curY = 1, z = 0, b = 0, c = 0, v = 0, tamamlandiKontrol = 0, sayac = 0;
-        bool dSonsuz = false;
         string curYon = "";
         Bitmap imgBos;
         Bitmap imgDuvar;
         Bitmap imgTarayici;
-
+        Bitmap imgDolu;
+        public frmTank()
+        {
+            InitializeComponent();
+            timer1.Interval = 300;
+        }
         private void txtX_KeyPress(object sender, KeyPressEventArgs e)
         {
             if ((int)e.KeyChar >= 48 && (int)e.KeyChar <= 57)
@@ -28,29 +32,6 @@ namespace TankOyunu
             else
                 e.Handled = true;
 
-        }
-
-        Bitmap imgDolu;
-
-        private void dgvPanel_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void toolStripLabel1_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void toolStripLabel2_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Kullanmış olduğunuz uygulama\nYazılım sınama dersi içine yapılmış.\nBir uygulamadır.");
-        }
-
-        public frmTank()
-        {
-            InitializeComponent();
-            timer1.Interval = 300;
         }
         public void KararKontrol()
         {
@@ -81,11 +62,6 @@ namespace TankOyunu
 
 
             //MessageBox.Show("Ust :" + ustKarar + "Sag :" + sagKarar + "Alt :" + altKarar + "Sol :" + solKarar);
-            if (ustKarar >= 999 && altKarar >= 999 && sagKarar >= 999 && solKarar >= 999)
-            {
-                dSonsuz = true;
-            }
-
             if (ustKarar <= solKarar && ustKarar <= sagKarar && ustKarar <= altKarar)
             {
                 if (bmustKarar != imgDuvar)
@@ -106,12 +82,12 @@ namespace TankOyunu
                 if (bmaltKarar != imgDuvar)
                     curYon = "alt";
             }
-            
+
             else
                 MessageBox.Show("Hatali yön");
         }
 
-       
+
 
         private void frmTank_Load(object sender, EventArgs e)
         {
@@ -121,7 +97,7 @@ namespace TankOyunu
             imgDolu = new Bitmap(@"dolu.png");
             btnStart.Enabled = false;
         }
-     
+
         private void btnCreate_Click(object sender, EventArgs e)
         {
             if (txtX.Text == "" || txtY.Text == "")
@@ -160,7 +136,7 @@ namespace TankOyunu
                                 if (cell.ColumnIndex == 0 || cell.ColumnIndex == x - 1 || cell.RowIndex == 0 || cell.RowIndex == y - 1)
                                 {
                                     cell.Value = imgDuvar;
-                                    cell.ToolTipText = "999";
+                                    cell.ToolTipText = "9999";
                                 }
                                 else
                                 {
@@ -181,7 +157,6 @@ namespace TankOyunu
                         btnCreate.Enabled = false;
                         txtX.Enabled = false;
                         txtY.Enabled = false;
-
                     }
                     else
                     {
@@ -193,15 +168,7 @@ namespace TankOyunu
                     MessageBox.Show("X değeri 5 - 100 arası olmalı");
                 }
             }
-           
-        }
 
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            btnCreate.Enabled = false;
-            dgvPanel.Enabled = false;
-            timer1.Enabled = true;
-            timer1.Start();
         }
 
         private void dgvPanel_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -211,7 +178,7 @@ namespace TankOyunu
                     if (dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != imgDuvar)
                     {
                         dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = imgDuvar;
-                        dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "999";
+                        dgvPanel.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "9999";
                         tamamlandiKontrol--;
                         //MessageBox.Show(tamamlandiKontrol+"");
                     }
@@ -222,6 +189,7 @@ namespace TankOyunu
                         tamamlandiKontrol++;
                         //MessageBox.Show(tamamlandiKontrol + "");
                     }
+            SonsuzKontrol();
         }
         public void BittiMi()
         {
@@ -247,9 +215,10 @@ namespace TankOyunu
                 btnStart.Enabled = false;
                 lblNot.Text = "Tekrar Oynaka İçin \n Değerleri Giriniz \n Sahneyi Oluşturunuz";
                 txtX.Focus();
+                //panel click enabled =true
             }
-           
-              
+
+
         }
         public void metinAlanTemizle()
         {
@@ -294,28 +263,39 @@ namespace TankOyunu
                 curY -= iY;
                 dgvPanel.Rows[curY].Cells[curX].Value = imgTarayici;
             }
-            //foreach (DataGridViewRow row in dgvPanel.Rows)
-            //{
-            //    foreach (DataGridViewCell cell in row.Cells)
-            //    {
-            //        if (cell.ToolTipText == "998")
-            //        {
-            //            dSonsuz = true;
-            //            break;
-            //        }
-            //    }
-            //}
-            //HATALI
-            if (dSonsuz)
-            {
-                timer1.Enabled = false;
-                MessageBox.Show("Sonsuz döngüye girdi.");
-                x = 0; y = 0; curX = 1; curY = 1; z = 0; b = 0; c = 0; v = 0; tamamlandiKontrol = 0; sayac = 0;
-                
-
-
-            }
             BittiMi();
+        }
+        public void SonsuzKontrol()
+        {
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    if (dgvPanel.Rows[j].Cells[i].ToolTipText == "0")
+                    {
+                        if (dgvPanel.Rows[j - 1].Cells[i].ToolTipText == "9999" && dgvPanel.Rows[j + 1].Cells[i].ToolTipText == "9999" && dgvPanel.Rows[j].Cells[i + 1].ToolTipText == "9999" && dgvPanel.Rows[j].Cells[i - 1].ToolTipText == "9999")
+                            MessageBox.Show("Bu alan oluşturulamaz!\nAlanı tekrardan düzenleyiniz.");
+                    }
+                }
+            }
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            btnCreate.Enabled = false;
+            dgvPanel.Enabled = true;
+            timer1.Enabled = true;
+            timer1.Start();
+        }
+
+        private void çıkışToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void hakkındaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Kullanmış olduğunuz uygulama\nYazılım sınama dersi için yapılmış.\nBir uygulamadır.","Bilgi");
         }
     }
 }
