@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmTank));
             this.dgvPanel = new System.Windows.Forms.DataGridView();
             this.btnCreate = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -57,7 +58,7 @@
             this.dgvPanel.AllowUserToResizeColumns = false;
             this.dgvPanel.AllowUserToResizeRows = false;
             this.dgvPanel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPanel.Location = new System.Drawing.Point(11, 26);
+            this.dgvPanel.Location = new System.Drawing.Point(11, 24);
             this.dgvPanel.Margin = new System.Windows.Forms.Padding(2);
             this.dgvPanel.MultiSelect = false;
             this.dgvPanel.Name = "dgvPanel";
@@ -187,7 +188,7 @@
             this.hakkındaToolStripMenuItem,
             this.oynanışToolStripMenuItem});
             this.yardımToolStripMenuItem.Name = "yardımToolStripMenuItem";
-            this.yardımToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.yardımToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.yardımToolStripMenuItem.Text = "Yardım";
             // 
             // hakkındaToolStripMenuItem
@@ -212,8 +213,10 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dgvPanel);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmTank";
             this.Text = "Tank Problemi";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmTank_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPanel)).EndInit();
             this.groupBox1.ResumeLayout(false);

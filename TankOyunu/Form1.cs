@@ -21,7 +21,6 @@ namespace TankOyunu
         public frmTank()
         {
             InitializeComponent();
-            timer1.Interval = 300;
         }
         private void txtX_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -84,18 +83,24 @@ namespace TankOyunu
             }
 
             else
-                MessageBox.Show("Hatali yön");
+                MessageBox.Show("Hatalı yön");
         }
 
 
 
         private void frmTank_Load(object sender, EventArgs e)
         {
-
-            imgBos = new Bitmap(@"bos.png");
-            imgDuvar = new Bitmap(@"duvar.png");
-            imgTarayici = new Bitmap(@"tarayici.png");
-            imgDolu = new Bitmap(@"dolu.png");
+            try
+            {
+                imgBos = new Bitmap(@"bos.png");
+                imgDuvar = new Bitmap(@"duvar.png");
+                imgTarayici = new Bitmap(@"tarayici.png");
+                imgDolu = new Bitmap(@"dolu.png");
+            }
+            catch
+            {
+                MessageBox.Show("Bitmap resimler yüklenemedi !");
+            }
             btnStart.Enabled = false;
         }
 
@@ -117,9 +122,10 @@ namespace TankOyunu
             {
                 MessageBox.Show("Değerler Boş Geçilemez Lütfen Değerleri Doldurunuz.");
             }
-            if (x <= 24 && y <= 14)
+            if (x <= 30 && y <= 17)
             {
                 tamamlandiKontrol = (x - 2) * (y - 2) - 1;
+                timer1.Interval = 1000 / y;
                 btnStart.Enabled = true;
                 try
                 {
@@ -139,7 +145,7 @@ namespace TankOyunu
 
                         foreach (DataGridViewRow row in dgvPanel.Rows)
                         {
-                            row.Height = 50;
+                            row.Height = 40;
 
                             foreach (DataGridViewCell cell in row.Cells)
                             {
@@ -158,7 +164,7 @@ namespace TankOyunu
 
                         foreach (DataGridViewColumn col in dgvPanel.Columns)
                         {
-                            col.Width = 50;
+                            col.Width = 40;
                         }
                         dgvPanel.ColumnHeadersVisible = false;
                         dgvPanel.Rows[1].Cells[1].Value = imgTarayici;
@@ -180,7 +186,7 @@ namespace TankOyunu
                 }
             }
             else
-                MessageBox.Show("X için 24 Y için 14 ");
+                MessageBox.Show("Maksimum X için 30 Y için 17 ");
 
 
 
@@ -291,19 +297,12 @@ namespace TankOyunu
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            // Create and initialize a VScrollBar.
-            VScrollBar vScrollBar1 = new VScrollBar();
-
-            // Dock the scroll bar to the right side of the form.
-            vScrollBar1.Dock = DockStyle.Right;
-
-            // Add the scroll bar to the form.
-            Controls.Add(vScrollBar1);
             btnCreate.Enabled = false;
             dgvPanel.Enabled = true;
             timer1.Enabled = true;
             timer1.Start();
             dgvPanel.Enabled = false;
+            btnStart.Enabled = false;
         }
 
         private void çıkışToolStripMenuItem_Click(object sender, EventArgs e)
