@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,10 +19,15 @@ namespace TankOyunu
         Bitmap imgDuvar;
         Bitmap imgTarayici;
         Bitmap imgDolu;
+        private Data data;
         public frmTank()
         {
             InitializeComponent();
+            data = new Data();
+            txtX.DataBindings.Add("Text", data, "X");
+            txtY.DataBindings.Add("Text", data, "Y");
         }
+        
         private void txtX_KeyPress(object sender, KeyPressEventArgs e)
         {
             if ((int)e.KeyChar >= 48 && (int)e.KeyChar <= 57)
@@ -92,10 +98,10 @@ namespace TankOyunu
         {
             try
             {
-                imgBos = new Bitmap(@"bos.png");
-                imgDuvar = new Bitmap(@"duvar.png");
-                imgTarayici = new Bitmap(@"tarayici.png");
-                imgDolu = new Bitmap(@"dolu.png");
+                imgBos = new Bitmap(Properties.Resources.bos);
+                imgDuvar = new Bitmap(Properties.Resources.duvar);
+                imgTarayici = new Bitmap(Properties.Resources.tarayici);
+                imgDolu = new Bitmap(Properties.Resources.dolu);
             }
             catch
             {
@@ -116,17 +122,17 @@ namespace TankOyunu
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            x = int.Parse(txtX.Text);
-            y = int.Parse(txtY.Text);
-            if (txtX.Text == "" || txtY.Text == "")
+            x = data.X;
+            y = data.Y;
+            if (txtX.Text.Equals("0") || txtY.Text.Equals("0"))
             {
                 MessageBox.Show("Değerler Boş Geçilemez Lütfen Değerleri Doldurunuz.");
             }
             if (x <= 30 && y <= 17)
             {
                 tamamlandiKontrol = (x - 2) * (y - 2) - 1;
-                timer1.Interval = 1000 / y;
-                btnStart.Enabled = true;
+                if(y!=0)
+                    timer1.Interval = 1000 / y;
                 try
                 {
                     if (x > 4 && y > 4)
@@ -173,6 +179,7 @@ namespace TankOyunu
                         btnCreate.Enabled = false;
                         txtX.Enabled = false;
                         txtY.Enabled = false;
+                        btnStart.Enabled = true;
                     }
                     else
                     {

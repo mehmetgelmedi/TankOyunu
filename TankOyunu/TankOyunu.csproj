@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,11 +84,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bos.png" />
-    <Content Include="dolu.png" />
-    <Content Include="duvar.png" />
+    <None Include="Resources\bos.png" />
+    <None Include="Resources\dolu.png" />
+    <None Include="Resources\duvar.png" />
+    <None Include="Resources\tarayici.png" />
     <Content Include="tank.ico" />
-    <Content Include="tarayici.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
